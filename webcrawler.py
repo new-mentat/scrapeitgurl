@@ -6,6 +6,8 @@ __author__ = 'Matt'
 __author__ = 'mlee'
 import string
 import contextlib
+from selenium.webdriver import Remote
+from selenium.webdriver.support.expected_conditions import staleness_of
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -27,6 +29,14 @@ URI = CONFIG["URI"]
 client = MongoClient(URI)
 cs_db = client.ur_coursesniper
 class_list = cs_db.classes
+
+
+class phantomload(webdriver.phantomJS):
+    @contextlib.contextmanager
+    def wait_for_page_load(self, timeout=30):
+        old_page = self.find_element_by_tag_name('html')
+        yield
+        WebDriverWait(self, timeout).until(staleness_of(old_page))
 
 
 #scans webpage and pulls courses and stores in tuple (CRN, NAME, STATUS)
@@ -52,10 +62,10 @@ def page_scan(html):
 
 #populates/updates database, webcrawls
 def web_crawler():
-    driver = webdriver.PhantomJS()
+    driver = phantomload(webdriver.PhantomJS())
     driver.get("https://cdcs.ur.rochester.edu/")
     driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-    sleep(3)
+    drive.wait_for_page_load()
     selectTerm = Select(driver.find_element_by_name('ddlTerm'))
     selectTerm.select_by_index(1)
     selectDept = Select(driver.find_element_by_name('ddlDept'))
