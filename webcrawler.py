@@ -6,7 +6,7 @@ __author__ = 'Matt'
 __author__ = 'mlee'
 import string
 import contextlib
-from selenium.webdriver import Remote
+from selenium.webdriver import PhantomJS
 from selenium.webdriver.support.expected_conditions import staleness_of
 
 from selenium import webdriver
@@ -24,19 +24,14 @@ import smtplib
 from email.mime.text import MIMEText
 from config import CONFIG
 import time
+import threading
+
 
 URI = CONFIG["URI"]
 client = MongoClient(URI)
 cs_db = client.ur_coursesniper
 class_list = cs_db.classes
 
-
-class phantomload(webdriver.phantomJS):
-    @contextlib.contextmanager
-    def wait_for_page_load(self, timeout=30):
-        old_page = self.find_element_by_tag_name('html')
-        yield
-        WebDriverWait(self, timeout).until(staleness_of(old_page))
 
 
 #scans webpage and pulls courses and stores in tuple (CRN, NAME, STATUS)
@@ -62,26 +57,27 @@ def page_scan(html):
 
 #populates/updates database, webcrawls
 def web_crawler():
-    driver = phantomload(webdriver.PhantomJS())
+    driver = webdriver.PhantomJS()
     driver.get("https://cdcs.ur.rochester.edu/")
     driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-    drive.wait_for_page_load()
     selectTerm = Select(driver.find_element_by_name('ddlTerm'))
     selectTerm.select_by_index(1)
+    sleep(1)
     selectDept = Select(driver.find_element_by_name('ddlDept'))
+    sleep(1)
     options = selectDept.options
 
     for i in range(1, len(options)):
         selectDept = Select(driver.find_element_by_name('ddlDept'))
         selectDept.select_by_index(i)
-        sleep(3)
+        sleep(2)
         submit = driver.find_element_by_name("btnSearchTop").click()
+        sleep(2)
         driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-        sleep(3)
         classes = page_scan(driver.page_source)
         update_DB(classes)
         print(classes)
-        sleep(3)
+        sleep(2)
 
     driver.close()
 
@@ -106,7 +102,10 @@ def update_entry(class_tuple):
         print("Got one!")
         print(post)
         snipe(post)
-    class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+    elif(post['STATUS'] != class_tuple[2]):
+    	class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+
 
 def start_sniping(email, crn):
     global class_list
@@ -156,6 +155,19 @@ def send_confirm(email, post):
 
 def main():
     start = time.time()
+    driver = webdriver.PhantomJS()
+    driver.get("https://cdcs.ur.rochester.edu/")
+    driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
+    selectTerm = Select(driver.find_element_by_name('ddlTerm'))
+    selectTerm.select_by_index(1)
+    sleep(1)
+    selectDept = Select(driver.find_element_by_name('ddlDept'))
+    sleep(1)
+    options = selectDept.options
+
+
+
+    
     web_crawler()
     print("DOOOOOOOOOOOOONE")
     end = time.time()

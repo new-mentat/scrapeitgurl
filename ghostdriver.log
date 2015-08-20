@@ -1,0 +1,61 @@
+[INFO  - 2015-08-20T06:24:02.913Z] GhostDriver - Main - running on port 56630
+[INFO  - 2015-08-20T06:24:03.646Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.0.0 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2015-08-20T06:24:03.646Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - page.customHeaders:  - {}
+[INFO  - 2015-08-20T06:24:03.646Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.0.0","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.9 (Mavericks)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2015-08-20T06:24:03.646Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 0d7d39a0-4704-11e5-99c1-43eaee076c06
+[ERROR - 2015-08-20T06:24:15.870Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - page.onError - msg: TypeError: null is not an object (evaluating 'this._currentTask._notified')
+
+  :262 in error
+[ERROR - 2015-08-20T06:24:15.870Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c0[INFO  - 2015-08-20T06:25:36.285Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:30:36.269Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:35:36.254Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+DCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:47)
+  (anonymous function) (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:3852)
+
+  :262 in error
+[INFO  - 2015-08-20T06:28:22.549Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:33:22.832Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:38:22.816Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+ah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:52)
+  abort (:0)
+  Sys$Net$XMLHttpExecutor$abort (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:4920)
+  Sys$WebForms$PageRequestManager$abortPostBack (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=HYdwT-chO4GdeaZa3kDlOyJY4RuPUm9P0mGguy5XaCGjozV0mZ5WvawdwuqVrx0ROlmG96DqQgs21hHC8AF9dd-BZQk3ZkCO1Qg2mDHAivTz-GeAfkKDdY5Qlt7kq83k84WZmxdaEcwrEmqYK6CK9_6rkfGZVhucbPtzgyiqonZRo2EE0&t=7af48e88:296)
+  Sys$WebForms$PageRequestManager$_onFormSubmit (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=HYdwT-chO4GdeaZa3kDlOyJY4RuPUm9P0mGguy5XaCGjozV0mZ5WvawdwuqVrx0ROlmG96DqQgs21hHC8AF9dd-BZQk3ZkCO1Qg2mDHAivTz-GeAfkKDdY5Qlt7kq83k84WZmxdaEcwrEmqYK6CK9_6rkfGZVhucbPtzgyiqonZRo2EE0&t=7af48e88:869)
+  (anonymous function) (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:47)
+  browserHandler (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:2948)
+  dispatchEvent (:0)
+  U (phantomjs://webpage.evaluate():119)
+  $ (phantomjs://webpage.evaluate():108)
+  $ (phantomjs://webpage.evaluate():101)
+  gh (phantomjs://webpage.evaluate():141)
+  sh (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():153)
+
+  :262 in error
+[ERROR - 2015-08-20T06:25:28.070Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - page.onError - msg: Sys.ParameterCountException: Sys.ParameterCountException: Parameter count mismatch.
+
+  :262 in error
+[ERROR - 2015-08-20T06:25:28.070Z] Session [0d7d39a0-4704-11e5-99c1-43eaee076c06] - page.onError - stack:
+  Function$emptyMethod (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:52)
+  abort (:0)
+  Sys$Net$XMLHttpExecutor$abort (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:4920)
+  Sys$WebForms$PageRequestManager$abortPostBack (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=HYdwT-chO4GdeaZa3kDlOyJY4RuPUm9P0mGguy5XaCGjozV0mZ5WvawdwuqVrx0ROlmG96DqQgs21hHC8AF9dd-BZQk3ZkCO1Qg2mDHAivTz-GeAfkKDdY5Qlt7kq83k84WZmxdaEcwrEmqYK6CK9_6rkfGZVhucbPtzgyiqonZRo2EE0&t=7af48e88:296)
+  Sys$WebForms$PageRequestManager$_onFormSubmit (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=HYdwT-chO4GdeaZa3kDlOyJY4RuPUm9P0mGguy5XaCGjozV0mZ5WvawdwuqVrx0ROlmG96DqQgs21hHC8AF9dd-BZQk3ZkCO1Qg2mDHAivTz-GeAfkKDdY5Qlt7kq83k84WZmxdaEcwrEmqYK6CK9_6rkfGZVhucbPtzgyiqonZRo2EE0&t=7af48e88:869)
+  (anonymous function) (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:47)
+  browserHandler (https://cdcs.ur.rochester.edu/ScriptResource.axd?d=D8GxOLJCF32HreN1-37gbLWYDCZRah8pKUbxpdHCrjytuUkWfFO6KCgJRiH9uVy0BKFUPrKrdfroRP-OAhudSjUjBLG91gOY-SkNK-eesBKDOLmQZXtaZUQIHChzSthMzodRHF2reAMRGGkC1OOsMpVeZzjZC0h54YOT9zG8BfbP6-S70&t=7af48e88:2948)
+  dispatchEvent (:0)
+  U (phantomjs://webpage.evaluate():119)
+  $ (phantomjs://webpage.evaluate():108)
+  $ (phantomjs://webpage.evaluate():101)
+  gh (phantomjs://webpage.evaluate():141)
+  sh (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():152)
+  (anonymous function) (phantomjs://webpage.evaluate():153)
+
+  :262 in error
+[INFO  - 2015-08-20T06:29:02.896Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:34:02.885Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2015-08-20T06:39:02.875Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
