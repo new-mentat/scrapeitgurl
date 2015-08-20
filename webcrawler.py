@@ -25,6 +25,7 @@ from email.mime.text import MIMEText
 from config import CONFIG
 import time
 import threading
+from threading import Thread
 
 
 URI = CONFIG["URI"]
@@ -56,18 +57,15 @@ def page_scan(html):
 
 
 #populates/updates database, webcrawls
-def web_crawler():
+def web_crawler(options):
     driver = webdriver.PhantomJS()
     driver.get("https://cdcs.ur.rochester.edu/")
+    sleep(2)
     driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-    selectTerm = Select(driver.find_element_by_name('ddlTerm'))
-    selectTerm.select_by_index(1)
-    sleep(1)
-    selectDept = Select(driver.find_element_by_name('ddlDept'))
-    sleep(1)
-    options = selectDept.options
 
-    for i in range(1, len(options)):
+    sleep(3)
+
+    for i in range(0, len(options)):
         selectDept = Select(driver.find_element_by_name('ddlDept'))
         selectDept.select_by_index(i)
         sleep(2)
@@ -104,7 +102,7 @@ def update_entry(class_tuple):
         snipe(post)
         class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
     elif(post['STATUS'] != class_tuple[2]):
-    	class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
 
 
 def start_sniping(email, crn):
@@ -163,21 +161,35 @@ def main():
     sleep(1)
     selectDept = Select(driver.find_element_by_name('ddlDept'))
     sleep(1)
-    options = selectDept.options
+    #options = selectDept.options
+    options = [["AAS"], ["ACC"], ["ACM"]]
+    sleep(2)
+    numopts = len(options) #start splicing babe
+
+
+    driver.close()
+    threads = []
+    for x in range(0,3):
+        thread = Thread(target=web_crawler, args=(options[x],))
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()
 
 
 
-    
-    web_crawler()
+
+
     print("DOOOOOOOOOOOOONE")
     end = time.time()
-    sprint(end - start)
+    print(end - start)
     ins = input("yeah boy")
-	
+    
 
 
 if __name__ == "__main__":
-	main()
+    main()
 
 
 
