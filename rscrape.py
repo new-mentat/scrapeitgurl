@@ -48,9 +48,9 @@ headies = {
 	'Connection':'keep-alive',
 	'Host':'cdcs.ur.rochester.edu',
 	'Origin':'https://cdcs.ur.rochester.edu',
-	'Referer':'https://cdcs.ur.rochester.edu/',
-}		
-
-data = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers= headies, data=formData)
+	'Referer':'https://cdcs.ur.rochester.edu/default.aspx',
+	'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36',
+}	
+data = request(method='POST', url='https://cdcs.ur.rochester.edu/default.aspx', headers=headies, data=formData)
 print data.content
-print data.status_code
+print data.headers
