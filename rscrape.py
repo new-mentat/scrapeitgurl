@@ -60,7 +60,6 @@ def getpage(category):
     'btnSearchTop':'Search',
     }
     classinfo = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers=headies, data=form_data)
-    print classinfo.content
     return classinfo.content
 
 def page_parse(html):
@@ -87,19 +86,6 @@ def page_parse(html):
     for status in statuses:
         status = status.string.strip()
         status_list.append(status)
-
-    j = 1
-    add = "01"
-    while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != None):
-        CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
-        CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
-        Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
-        r_list.append((CRN, CNum, Status))
-        j+=2;
-        if j < 10:
-            add = "0" + str(j)
-        else:
-            add = str(j)
     
     for x in range(0, len(crn_list)):
         aggregated.append((crn_list[x], cnum_list[x], status_list[x]))
@@ -110,8 +96,51 @@ def page_parse(html):
     
     
    # print r_list
+badformData = {
+    'ScriptManager1':'UpdatePanel4|btnSearchTop',
+    '__LASTFOCUS': '',
+    '__EVENTTARGET': '',
+    '__EVENTARGUMENT': '',
+    '__EVENTVALIDATION': eventvalidation,
+    '__VIEWSTATE': viewstate,
+    '__VIEWSTATEGENERATOR': viewstategen,
+    'ddlTerm:': 'D-20161',
+    'ddlSchool': '',
+    'ddlDept': 'ACM',
+    'txtCourse': '',
+    'ddlTypes': '',
+    'ddlStatus': '',
+    'txtDescription': '',
+    'txtTitle': '',
+    'txtInstructor': '',
+    'ddlTimeFrom': '',
+    'ddlTimeTo': '',
+    'ddlCreditFrom': '', 
+    'ddlCreditTo': '',
+    'ddlDivision': '',
+    '__ASYNCPOST': 'true',
+    'btnSearchTop' : 'Search',
+}
 
+badheadies = {
+    'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+    'X-MicrosoftAjax': "Delta=true",
+    'Accept-Encoding':'gzip, deflate',
+    'Accept' : '*/*',
+    'Accept-Language': 'en-US,en;q=0.8',
+    'Cache-Control':'no-cache',
+    'Connection':'keep-alive',
+    'Host':'cdcs.ur.rochester.edu',
+    'Origin':'https://cdcs.ur.rochester.edu',
+    'Referer':'https://cdcs.ur.rochester.edu/',
+}      
 
+getcategories = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers= badheadies, data=badformData)
+
+print getcategories.content
+
+#semester = semester.string().strip()
+#print semester
 
 html = getpage('AH')
 start = time.time()
