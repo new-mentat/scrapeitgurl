@@ -61,8 +61,29 @@ def getpage(category):
 	}
 	classinfo = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers=headies, data=form_data)
 	print classinfo.content
-	return classinfo
+	return classinfo.content
+
+def page_parse(html):
+    r_list = []
+    soup = BeautifulSoup(html)
+    j = 1
+    add = "01"
+    while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != None):
+        CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
+        CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
+        Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
+        #print(CRN + " || " + CNum + " || " + Status)
+        r_list.append((CRN, CNum, Status))
+        j+=2;
+        if j < 10:
+            add = "0" + str(j)
+        else:
+            add = str(j)
+    return r_list
 
 
 
-getpage('AAS')
+
+html = getpage('AH')
+data = page_parse(html)
+print data
