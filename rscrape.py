@@ -3,8 +3,8 @@ import bs4
 from bs4 import BeautifulSoup
 from requests import request
 from time import sleep
-
-
+import re
+import time
 
 headies = {
 	'Accept':'*/*',
@@ -66,24 +66,37 @@ def getpage(category):
 def page_parse(html):
     r_list = []
     soup = BeautifulSoup(html)
-    j = 1
-    add = "01"
-    while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != None):
-        CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
-        CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
-        Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
+    crns = soup.find_all(id= re.compile('rpResults_ctl.*_lblCRN'))
+    #cnum = soup.find_all(id = re.compile('rpResults_cutl.*'))
+
+    for y in x:
+    	y = y.string.strip()
+    	#y = y.get_text()
+    	r_list.append(y)
+
+    #j = 1
+    #add = "01"
+    #while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != None):
+        #CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
+        #CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
+        #Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
         #print(CRN + " || " + CNum + " || " + Status)
-        r_list.append((CRN, CNum, Status))
-        j+=2;
-        if j < 10:
-            add = "0" + str(j)
-        else:
-            add = str(j)
+        #r_list.append((CRN, CNum, Status))
+        #j+=2;
+        #if j < 10:
+        #    add = "0" + str(j)
+        #else:
+        #    add = str(j)
+    CRN = soup.find(id = "rpResults_ctl01_lblCRN").string.strip()
+    print CRN
+    print r_list
     return r_list
 
 
 
 
 html = getpage('AH')
+start = time.time()
 data = page_parse(html)
-print data
+end = time.time()
+print(end - start)
