@@ -88,24 +88,24 @@ def page_parse(html):
         status = status.string.strip()
         status_list.append(status)
 
-#    j = 1
- #   add = "01"
-  #  while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != Nonew  #      CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
-  #      CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
-  #      Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
-   #     print(CRN + " || " + CNum + " || " + Status)
-    #    r_list.append((CRN, CNum, Status))
-    #    j+=2;
-    #    if j < 10:
-    #        add = "0" + str(j)
-    #    else:
-    #        add = str(j)
-    #CRN = soup.find(id = "rpResults_ctl01_lblCRN").string.strip()
+    j = 1
+    add = "01"
+    while (soup.find(id = "rpResults_ctl" + add + "_lblTitle") != None):
+        CRN = soup.find(id = "rpResults_ctl" + add + "_lblCRN").string.strip()
+        CNum = soup.find(id = "rpResults_ctl" + add + "_lblCNum").string.strip()
+        Status = soup.find(id = "rpResults_ctl" + add + "_lblStatus").string.strip()
+        r_list.append((CRN, CNum, Status))
+        j+=2;
+        if j < 10:
+            add = "0" + str(j)
+        else:
+            add = str(j)
     
     for x in range(0, len(crn_list)):
         aggregated.append((crn_list[x], cnum_list[x], status_list[x]))
 
-    print aggregated
+    if(r_list == aggregated):
+        print ("true")
 
     
     
