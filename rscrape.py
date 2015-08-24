@@ -211,8 +211,6 @@ def crawl():
 #getlatestoptions()
 
 #html = getpage('AH')
-start = time.time()
-crawl()
+while True:
+	crawl()
 #data = page_parse(html)
-end = time.time()
-print(end - start)
