@@ -95,55 +95,27 @@ def page_parse(html):
 
     
     
-   # print r_list
-badformData = {
-    'ScriptManager1':'UpdatePanel4|btnSearchTop',
-    '__LASTFOCUS': '',
-    '__EVENTTARGET': '',
-    '__EVENTARGUMENT': '',
-    '__EVENTVALIDATION': eventvalidation,
-    '__VIEWSTATE': viewstate,
-    '__VIEWSTATEGENERATOR': viewstategen,
-    'ddlTerm:': 'D-20161',
-    'ddlSchool': '',
-    'ddlDept': 'ACM',
-    'txtCourse': '',
-    'ddlTypes': '',
-    'ddlStatus': '',
-    'txtDescription': '',
-    'txtTitle': '',
-    'txtInstructor': '',
-    'ddlTimeFrom': '',
-    'ddlTimeTo': '',
-    'ddlCreditFrom': '', 
-    'ddlCreditTo': '',
-    'ddlDivision': '',
-    '__ASYNCPOST': 'true',
-    'btnSearchTop' : 'Search',
-}
 
-badheadies = {
-    'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-    'X-MicrosoftAjax': "Delta=true",
-    'Accept-Encoding':'gzip, deflate',
-    'Accept' : '*/*',
-    'Accept-Language': 'en-US,en;q=0.8',
-    'Cache-Control':'no-cache',
-    'Connection':'keep-alive',
-    'Host':'cdcs.ur.rochester.edu',
-    'Origin':'https://cdcs.ur.rochester.edu',
-    'Referer':'https://cdcs.ur.rochester.edu/',
-}      
+infohtml = request(method='GET', url='https://cdcs.ur.rochester.edu')
+infosoup = BeautifulSoup(infohtml.content)
 
-getcategories = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers= badheadies, data=badformData)
+termhtml = infosoup.find(id="ddlTerm")
+termhtml = termhtml.prettify()
 
-print getcategories.content
+termsoup = BeautifulSoup(termhtml)
+termtag = termsoup.find_all("option")
 
-#semester = semester.string().strip()
-#print semester
+latestterm = termtag[1]
+latestterm = latestterm['value']
+#termtag = termtag.next
 
-html = getpage('AH')
-start = time.time()
-data = page_parse(html)
-end = time.time()
-print(end - start)
+print latestterm
+
+
+
+
+#html = getpage('AH')
+#start = time.time()
+#data = page_parse(html)
+#end = time.time()
+#print(end - start)
