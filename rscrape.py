@@ -6,6 +6,10 @@ from time import sleep
 import re
 import time
 
+term = ""
+depts = []
+
+
 headies = {
     'Accept':'*/*',
     'Accept-Encoding':'gzip, deflate',
@@ -111,6 +115,22 @@ latestterm = latestterm['value']
 
 print latestterm
 
+
+infosoup = BeautifulSoup(infohtml.content)
+infosoup = infosoup.find(id="ddlDept")
+#infosoup = infosoup.prettify()
+
+infotag = infosoup.find_all("option")
+
+departments = []
+
+for dept in infotag[1:len(infotag)]:
+	departments.append(dept['value'])
+
+print departments
+
+#print infotag
+#
 
 
 
