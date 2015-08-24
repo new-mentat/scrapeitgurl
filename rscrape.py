@@ -5,9 +5,28 @@ from requests import request
 from time import sleep
 import re
 import time
+from config import CONFIG
+import pymongo
+from pymongo import MongoClient
+import smtplib
+from email.mime.text import MIMEText
+
+URI = CONFIG["URI"]
+client = MongoClient(URI)
+cs_db = client.ur_coursesniper
+class_list = cs_db.classes
+
 
 term = ""
 depts = []
+data = request(method='GET', url='https://cdcs.ur.rochester.edu/Default.aspx')
+soup = BeautifulSoup(data.content)
+# parse and retrieve three vital form values
+viewstate = soup.select("#__VIEWSTATE")[0]['value']
+viewstategen = soup.select("#__VIEWSTATEGENERATOR")[0]['value']
+eventvalidation = soup.select("#__EVENTVALIDATION")[0]['value']
+
+
 
 
 headies = {
@@ -25,20 +44,16 @@ headies = {
     'X-MicrosoftAjax':'Delta=true',
 }
 
-data = request(method='GET', url='https://cdcs.ur.rochester.edu/Default.aspx')
-
-soup = BeautifulSoup(data.content)
-# parse and retrieve three vital form values
-viewstate = soup.select("#__VIEWSTATE")[0]['value']
-viewstategen = soup.select("#__VIEWSTATEGENERATOR")[0]['value']
-eventvalidation = soup.select("#__EVENTVALIDATION")[0]['value']
-
-
 
 
 def getpage(category):
     global headies
     global term
+    global viewstate
+    global viewstategen
+    global eventvalidation
+
+
     form_data = {
     'ScriptManager1':'UpdatePanel4|btnSearchTop',
     '__LASTFOCUS':'',
@@ -97,7 +112,8 @@ def page_parse(html):
 
     if(r_list == aggregated):
         print ("true")
-
+    print aggregated
+    return aggregated
     
 def getlatestoptions():   
 	global term
@@ -132,10 +148,71 @@ def getlatestoptions():
 	depts = departments
 	print departments
 
-getlatestoptions()
+def update_DB(class_tuples):
+    global class_list
+    posts = []
+    for x in class_tuples:
+        if(class_list.find_one({"CRN" : x[0] }) == None):
+            posts.append({"CRN": x[0], "NAME": x[1], "STATUS": x[2], "Users": []})
+        else:
+            update_entry(x)
+
+    if(posts):
+        class_list.insert_many(posts)
+
+def update_entry(class_tuple):
+    global class_list
+    post = class_list.find_one({"CRN": class_tuple[0]})
+
+    if(post['STATUS'] == 'Closed' and class_tuple[2] == 'Open' ):
+        print("Got one!")
+        print(post)
+        snipe(post)
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+    elif(post['STATUS'] != class_tuple[2]):
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
+
+def snipe(post):
+    for email in post['Users']:
+        send_snipemail(email, post)
+
+def send_snipemail(email, post):
+    crn = post['CRN']
+    s_class = post['NAME']
+    from_addr = CONFIG["EMAIL"]
+
+    #add option to resnipe here, and link to registration page
+    msg = MIMEText("Hey!\n\n The class " + s_class + " you are currently sniping has just opened up.\n\nSnag it while it's still available! \n\n GL,\n Your Faithful Snipers")
+    msg['From'] = 'ur.snipeteam@gmail.com'
+    msg['To'] =  email
+    msg['Subject'] = 'The course ' + s_class + ' has just opened up. Snag it!'
+
+
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(from_addr,CONFIG["PASS"])
+    server.sendmail('ur.snipeteam', email, msg.as_string())
+    server.quit()
+
+
+def crawl():
+	global depts
+
+	getlatestoptions()
+	for dept in depts:
+		html = getpage(dept)
+		class_tuples = page_parse(html)
+		if class_tuples:
+			update_DB(class_tuples)
+
+
+
+
+#getlatestoptions()
 
 #html = getpage('AH')
-#start = time.time()
+start = time.time()
+crawl()
 #data = page_parse(html)
-#end = time.time()
-#print(end - start)
+end = time.time()
+print(end - start)
