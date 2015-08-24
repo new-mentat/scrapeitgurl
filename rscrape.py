@@ -38,6 +38,7 @@ eventvalidation = soup.select("#__EVENTVALIDATION")[0]['value']
 
 def getpage(category):
     global headies
+    global term
     form_data = {
     'ScriptManager1':'UpdatePanel4|btnSearchTop',
     '__LASTFOCUS':'',
@@ -46,7 +47,7 @@ def getpage(category):
     '__VIEWSTATE': viewstate,
     '__VIEWSTATEGENERATOR': viewstategen,
     '__EVENTVALIDATION': eventvalidation,
-    'ddlTerm':'D-20161',
+    'ddlTerm':term,
     'ddlSchool':'',
     'ddlDept':category,
     'txtCourse':'',
@@ -98,41 +99,40 @@ def page_parse(html):
         print ("true")
 
     
-    
+def getlatestoptions():   
+	global term
+	global depts
 
-infohtml = request(method='GET', url='https://cdcs.ur.rochester.edu')
-infosoup = BeautifulSoup(infohtml.content)
+	infohtml = request(method='GET', url='https://cdcs.ur.rochester.edu')
+	infosoup = BeautifulSoup(infohtml.content)
 
-termhtml = infosoup.find(id="ddlTerm")
-termhtml = termhtml.prettify()
+	termhtml = infosoup.find(id="ddlTerm")
+	termhtml = termhtml.prettify()
 
-termsoup = BeautifulSoup(termhtml)
-termtag = termsoup.find_all("option")
+	termsoup = BeautifulSoup(termhtml)
+	termtag = termsoup.find_all("option")
 
-latestterm = termtag[1]
-latestterm = latestterm['value']
-#termtag = termtag.next
+	latestterm = termtag[1]
+	latestterm = latestterm['value']
 
-print latestterm
+	term = latestterm
 
+	print("Latest term just updated to %s" % latestterm)
+	
+	infosoup = BeautifulSoup(infohtml.content)
+	infosoup = infosoup.find(id="ddlDept")
 
-infosoup = BeautifulSoup(infohtml.content)
-infosoup = infosoup.find(id="ddlDept")
-#infosoup = infosoup.prettify()
+	infotag = infosoup.find_all("option")
 
-infotag = infosoup.find_all("option")
+	departments = []
 
-departments = []
+	for dept in infotag[1:len(infotag)]:
+		departments.append(dept['value'])
 
-for dept in infotag[1:len(infotag)]:
-	departments.append(dept['value'])
+	depts = departments
+	print departments
 
-print departments
-
-#print infotag
-#
-
-
+getlatestoptions()
 
 #html = getpage('AH')
 #start = time.time()
