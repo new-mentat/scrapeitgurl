@@ -168,6 +168,7 @@ def update_entry(class_tuple):
         print("Got one!")
         print(post)
         snipe(post)
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'Users': []}})
         class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
     elif(post['STATUS'] != class_tuple[2]):
         class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'STATUS': class_tuple[2]}})
