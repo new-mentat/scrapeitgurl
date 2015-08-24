@@ -10,6 +10,7 @@ import pymongo
 from pymongo import MongoClient
 import smtplib
 from email.mime.text import MIMEText
+from requests.exceptions import ConnectionError
 
 URI = CONFIG["URI"]
 client = MongoClient(URI)
@@ -19,8 +20,15 @@ class_list = cs_db.classes
 
 term = ""
 depts = []
-data = request(method='GET', url='https://cdcs.ur.rochester.edu/Default.aspx')
+while True:
+    try:
+        data = request(method='GET', url='https://cdcs.ur.rochester.edu/Default.aspx')
+        break
+    except ConnectionError:
+        sleep(5)
+        continue
 soup = BeautifulSoup(data.content)
+
 # parse and retrieve three vital form values
 viewstate = soup.select("#__VIEWSTATE")[0]['value']
 viewstategen = soup.select("#__VIEWSTATEGENERATOR")[0]['value']
@@ -79,7 +87,14 @@ def getpage(category):
     '__ASYNCPOST':'true',
     'btnSearchTop':'Search',
     }
-    classinfo = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers=headies, data=form_data)
+    while True:
+        try:
+            classinfo = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers=headies, data=form_data)
+            break
+        except ConnectionError:
+            print("connection error")
+            sleep(5)
+            continue
     return classinfo.content
 
 def page_parse(html):
@@ -115,38 +130,46 @@ def page_parse(html):
     print aggregated
     return aggregated
     
-def getlatestoptions():   
-	global term
-	global depts
+def getlatestoptions():
+    global term
+    global depts
 
-	infohtml = request(method='GET', url='https://cdcs.ur.rochester.edu')
-	infosoup = BeautifulSoup(infohtml.content)
+    while True:
+        try:
+           infohtml = request(method='GET', url='https://cdcs.ur.rochester.edu')
+           break
+        except ConnectionError:
+            print("connection Error")
+            sleep(5)
+            continue
 
-	termhtml = infosoup.find(id="ddlTerm")
-	termhtml = termhtml.prettify()
+    infosoup = BeautifulSoup(infohtml.content)
 
-	termsoup = BeautifulSoup(termhtml)
-	termtag = termsoup.find_all("option")
+    termhtml = infosoup.find(id="ddlTerm")
+    termhtml = termhtml.prettify()
 
-	latestterm = termtag[1]
-	latestterm = latestterm['value']
+    termsoup = BeautifulSoup(termhtml)
+    termtag = termsoup.find_all("option")
 
-	term = latestterm
+    latestterm = termtag[1]
+    latestterm = latestterm['value']
 
-	print("Latest term just updated to %s" % latestterm)
-	
-	infosoup = BeautifulSoup(infohtml.content)
-	infosoup = infosoup.find(id="ddlDept")
+    term = latestterm
 
-	infotag = infosoup.find_all("option")
+    print("Latest term just updated to %s" % latestterm)
+    
+    infosoup = BeautifulSoup(infohtml.content)
+    infosoup = infosoup.find(id="ddlDept")
 
-	departments = []
+    infotag = infosoup.find_all("option")
 
-	for dept in infotag[1:len(infotag)]:
-		departments.append(dept['value'])
+    departments = []
 
-	depts = departments
-	print departments
+    for dept in infotag[1:len(infotag)]:
+        departments.append(dept['value'])
+
+    depts = departments
+    print departments
 
 def update_DB(class_tuples):
     global class_list
@@ -197,21 +220,17 @@ def send_snipemail(email, post):
 
 
 def crawl():
-	global depts
+    global depts
 
-	getlatestoptions()
-	for dept in depts:
-		html = getpage(dept)
-		class_tuples = page_parse(html)
-		if class_tuples:
-			update_DB(class_tuples)
-
-
+    getlatestoptions()
+    for dept in depts:
+        html = getpage(dept)
+        class_tuples = page_parse(html)
+        if class_tuples:
+            update_DB(class_tuples)
 
 
-#getlatestoptions()
 
-#html = getpage('AH')
+
 while True:
-	crawl()
-#data = page_parse(html)
+    crawl()
