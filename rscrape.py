@@ -224,10 +224,20 @@ def send_snipemail(email, post):
 
 
 def crawl():
-    global depts
+    global class_list 
+
+    smartdepts = []
+
+    tracked = class_list.find({"Users": {"$ne": []}})
+    print("Going to track these courses:")
+    for course in tracked:
+        print course['NAME']
+        dept = course['NAME'].split(' ')[0]
+        smartdepts.append(dept)
 
     getlatestoptions()
-    for dept in depts:
+
+    for dept in smartdepts:
         html = getpage(dept)
         class_tuples = page_parse(html)
         if class_tuples:
@@ -238,3 +248,4 @@ def crawl():
 
 while True:
     crawl()
+
