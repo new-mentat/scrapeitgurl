@@ -90,7 +90,7 @@ def getpage(category):
     while True:
         try:
             classinfo = request(method='POST', url='https://cdcs.ur.rochester.edu/Default.aspx', headers=headies, data=form_data)
-            break
+            break   
         except ConnectionError:
             print("connection error")
             sleep(5)
@@ -186,6 +186,10 @@ def update_DB(class_tuples):
 def update_entry(class_tuple):
     global class_list
     post = class_list.find_one({"CRN": class_tuple[0]})
+
+    if(post['STATUS'] == 'Open' and post['Users'] != None):
+        snipe(post)
+        class_list.update_one({"CRN": class_tuple[0]}, {'$set': {'Users': []}})
 
     if(post['STATUS'] == 'Closed' and class_tuple[2] == 'Open' ):
         print("Got one!")
