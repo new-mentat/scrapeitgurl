@@ -5,12 +5,14 @@ from requests import request
 from time import sleep
 import re
 import time
+import sched
 from config import CONFIG
 import pymongo
 from pymongo import MongoClient
 import smtplib
 from email.mime.text import MIMEText
 from requests.exceptions import ConnectionError
+import threading
 
 URI = CONFIG["URI"]
 client = MongoClient(URI)
@@ -224,6 +226,25 @@ def send_snipemail(email, post):
     server.sendmail('snipeitgurl', email, msg.as_string())
     server.quit()
 
+def sendNotify():
+    msg = MIMEText("Your scraper is still running")
+    msg['From'] = 'snipeitgurl@gmail.com'
+    msg['To'] =  "mattlee446@gmail.com"
+    msg['Subject'] = 'Chimmy Choomba'
+    from_addr = CONFIG["EMAIL"]
+
+
+
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(from_addr,CONFIG["PASS"])
+    server.sendmail('snipeitgurl', "mattlee446@gmail.com", msg.as_string())
+    server.quit()
+    threading.Timer(86400, sendNotify).start()
+
+
 
 def crawl():
     global class_list 
@@ -246,7 +267,7 @@ def crawl():
             update_DB(class_tuples)
 
 
-
+sendNotify()
 
 while True:
     crawl()
