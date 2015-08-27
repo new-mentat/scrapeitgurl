@@ -211,15 +211,17 @@ def send_snipemail(email, post):
 
     #add option to resnipe here, and link to registration page
     msg = MIMEText("Hey!\n\n The class " + s_class + " you are currently sniping has just opened up.\n\nSnag it while it's still available! \n\n GL,\n Your Faithful Snipers")
-    msg['From'] = 'ur.snipeteam@gmail.com'
+    msg['From'] = 'snipeitgurl@gmail.com'
     msg['To'] =  email
     msg['Subject'] = 'The course ' + s_class + ' has just opened up. Snag it!'
 
 
     server = smtplib.SMTP('smtp.gmail.com:587')
+    server.ehlo()
     server.starttls()
+    server.ehlo()
     server.login(from_addr,CONFIG["PASS"])
-    server.sendmail('ur.snipeteam', email, msg.as_string())
+    server.sendmail('snipeitgurl', email, msg.as_string())
     server.quit()
 
 
